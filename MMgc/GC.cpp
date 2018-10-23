@@ -1472,7 +1472,7 @@ static inline int LargeGCAllocHeapPartition(int index)    { GCAssert(kGCPartitio
     {
         (void)allowGarbage;
         void *realItem = NULL;
-        int bits = GetPageMapValueGuarded((uintptr_t)gcItem);
+        int bits = GetPageMapValue((uintptr_t)gcItem);
         switch(bits)
         {
             case PageMap::kGCAllocPage:
@@ -1799,7 +1799,7 @@ static inline int LargeGCAllocHeapPartition(int index)    { GCAssert(kGCPartitio
 #ifdef GCDEBUG
     bool GC::IsPointerIntoGCObject(const void *item)
     {
-        int bits = GetPageMapValueGuarded((uintptr_t)item);
+        int bits = GetPageMapValue((uintptr_t)item);
         switch(bits) {
             case PageMap::kGCAllocPage:
                 return GCAlloc::IsPointerIntoGCObject(item);
@@ -1815,7 +1815,8 @@ static inline int LargeGCAllocHeapPartition(int index)    { GCAssert(kGCPartitio
 
     bool GC::IsRCObjectSafe(const void *userptr)
     {
-        return userptr != NULL && IsPointerToGCObject(GetRealPointer(userptr)) && GC::IsRCObject(userptr);
+        return GC::IsRCObject(userptr);
+        //return userptr != NULL && IsPointerToGCObject(GetRealPointer(userptr)) && GC::IsRCObject(userptr);
     }
 
 #if 0
@@ -3156,7 +3157,7 @@ static inline int LargeGCAllocHeapPartition(int index)    { GCAssert(kGCPartitio
         // back up to real beginning
         item = GetRealPointer((const void*) item);
 
-        int bits = GetPageMapValueGuarded((uintptr_t)item);
+        int bits = GetPageMapValue((uintptr_t)item);
         switch(bits) {
         case PageMap::kGCAllocPage:
             return GCAlloc::IsWhite(item);

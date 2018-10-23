@@ -174,7 +174,8 @@ namespace avmplus
 				AvmAssert(data != NULL);
 				if ((len ^ MMgc::GCHeap::secret) != data->cookie)
 				{
-					DataListLengthValidationError();
+                    avmplus::AvmLog("bad (len ^ MMgc::GCHeap::secret) != data->cookie\n");
+					//DataListLengthValidationError();
 				}
 			#endif
 			return len;

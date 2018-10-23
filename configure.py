@@ -84,7 +84,11 @@ def _setSDKParams(sdk_version, os_ver, xcode_version):
     elif sdk_version == '1011':
         os_ver,sdk_number = '10.11','10.11'
         if xcode_version is None:
-            xcode_version = '7'        
+            xcode_version = '7'
+    elif sdk_version == '1013':
+        os_ver,sdk_number = '10.13','10.14'
+        if xcode_version is None:
+            xcode_version = '7'
     else:
         print'Unknown SDK version -> %s. Expected values are 104u, 105, 106, 107, 108, 109 or 1010.' % sdk_version
         sys.exit(2)
@@ -251,9 +255,9 @@ if llvm_dir :
     config.subst("LLVM_LIBS", llvm_libs_flags)
 
 APP_CPPFLAGS = "-DAVMSHELL_BUILD "
-APP_CXXFLAGS = ""
-APP_CFLAGS = ""
-OPT_CXXFLAGS = "-O3 "
+APP_CXXFLAGS = "-O0 -g "
+APP_CFLAGS = "-O0 -g "
+OPT_CXXFLAGS = "-O0 -g "
 OPT_CPPFLAGS = ""
 DEBUG_CPPFLAGS = "-DDEBUG -D_DEBUG "
 DEBUG_CXXFLAGS = ""
@@ -350,10 +354,12 @@ if config.getCompiler() == 'GCC':
     else:
         rawver = build.process.run_for_output(['gcc', '--version'])
     vre = re.compile(".* ([3-9]\.[0-9]+\.?[0-9]*)[ \n]")
-    ver = vre.match(rawver).group(1)
-    ver_arr = ver.split('.')
-    GCC_MAJOR_VERSION = int(ver_arr[0])
-    GCC_MINOR_VERSION = int(ver_arr[1])
+    # ver = vre.match(rawver).group(1)
+    # ver_arr = ver.split('.')
+    # GCC_MAJOR_VERSION = int(ver_arr[0])
+    # GCC_MINOR_VERSION = int(ver_arr[1])
+    GCC_MAJOR_VERSION = 6
+    GCC_MINOR_VERSION = 1
     clang_compiler = (rawver.find("clang") != -1 )
 
 

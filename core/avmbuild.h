@@ -151,7 +151,7 @@
 //#define VMCFG_STACK_METRICS
 
 // Harden against attacks that smash the length field of vectors and (dense) arrays.
-#define VMCFG_VECTOR_SMASH_PROTECTION
+//#define VMCFG_VECTOR_SMASH_PROTECTION
 
 // Deliberately fragment and randomize code space to test long branches in JIT.
 // Stress mode for testing only.  Implemented only on MacOS at present, with no
